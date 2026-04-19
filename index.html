@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CColore Moda Kids - Roupas Infantis</title>
+  <link rel="stylesheet" href="css/style.css">
+  <meta name="description" content="CColore Moda Kids - As melhores roupas infantis com estilo e conforto para seus pequenos.">
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="header">
+    <div class="header-inner">
+      <a href="index.html" class="logo">
+        <img src="logo.jpg" alt="Coloré Moda Kids">
+      </a>
+
+      <div class="search-bar">
+        <span class="search-icon">🔍</span>
+        <input type="text" id="searchInput" placeholder="Buscar produtos...">
+      </div>
+
+      <div class="nav-actions">
+        <a href="minha-conta.html" class="btn-icon" id="accountBtn" title="Minha Conta">
+          👤
+          <span class="account-label" id="accountLabel">Entrar</span>
+        </a>
+        <button class="btn-icon" id="cartBtn" title="Carrinho">
+          🛒
+          <span class="cart-count" id="cartCount">0</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-content">
+      <div class="hero-rainbow">🌈</div>
+      <h2><span class="text-coral">Moda</span> <span class="text-teal">infantil</span> com <span class="text-yellow">estilo</span> e <span class="text-lavender">conforto</span></h2>
+      <p>Vista seus pequenos com as tendências mais fofas da temporada! ⭐</p>
+    </div>
+  </section>
+
+  <!-- CATEGORIAS -->
+  <div class="categories" id="categoriesBar">
+    <!-- Gerado via JS -->
+  </div>
+
+  <!-- PRODUTOS -->
+  <section class="products-section">
+    <div class="products-header">
+      <h3>Nossos Produtos</h3>
+      <span class="product-count" id="productCount"></span>
+    </div>
+    <div class="products-grid" id="productsGrid">
+      <!-- Gerado via JS -->
+    </div>
+  </section>
+
+  <!-- MODAL DE PRODUTO -->
+  <div class="modal-overlay" id="productModal">
+    <div class="modal">
+      <button class="modal-close" id="modalClose">✕</button>
+      <div class="modal-product" id="modalContent">
+        <!-- Gerado via JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- CARRINHO SIDEBAR -->
+  <div class="cart-overlay" id="cartOverlay"></div>
+  <div class="cart-sidebar" id="cartSidebar">
+    <div class="cart-header">
+      <h3>🛒 Seu Carrinho</h3>
+      <button class="btn-icon" id="closeCart" title="Fechar">✕</button>
+    </div>
+    <div class="cart-items" id="cartItems">
+      <!-- Gerado via JS -->
+    </div>
+    <div class="cart-footer">
+      <div class="cart-total">
+        <span>Total:</span>
+        <span class="total-price" id="cartTotal">R$ 0,00</span>
+      </div>
+      <button class="btn-checkout" id="checkoutBtn">
+        📱 Enviar Pedido via WhatsApp
+      </button>
+    </div>
+  </div>
+
+  <!-- FORMULÁRIO DE CHECKOUT -->
+  <div class="modal-overlay" id="checkoutModal">
+    <div class="modal" style="max-width:520px;">
+      <button class="modal-close" id="checkoutClose">✕</button>
+      <div style="padding:2rem;">
+        <h2 style="font-weight:900;margin-bottom:0.3rem;">📋 Finalizar Pedido</h2>
+        <p style="color:var(--text-light);font-size:0.9rem;margin-bottom:1.5rem;">Preencha seus dados para enviarmos o pedido.</p>
+        <form id="checkoutForm">
+          <div class="form-row">
+            <div class="form-group">
+              <label>Nome *</label>
+              <input type="text" id="clientName" required maxlength="50" placeholder="Seu nome">
+            </div>
+            <div class="form-group">
+              <label>Sobrenome *</label>
+              <input type="text" id="clientLastName" required maxlength="50" placeholder="Seu sobrenome">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>CEP *</label>
+              <input type="text" id="clientCep" required maxlength="9" placeholder="00000-000">
+              <small class="cep-status" id="clientCepStatus"></small>
+            </div>
+            <div class="form-group">
+              <label>Telefone *</label>
+              <input type="tel" id="clientPhone" required maxlength="15" placeholder="(00) 00000-0000">
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Endereço (Rua) *</label>
+            <input type="text" id="clientAddress" required maxlength="150" placeholder="Rua, Avenida...">
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Número *</label>
+              <input type="text" id="clientNumber" required maxlength="10" placeholder="Nº">
+            </div>
+            <div class="form-group">
+              <label>Bairro *</label>
+              <input type="text" id="clientBairro" required maxlength="80" placeholder="Bairro">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Cidade *</label>
+              <input type="text" id="clientCity" required maxlength="80" placeholder="Cidade">
+            </div>
+            <div class="form-group">
+              <label>Estado *</label>
+              <select id="clientState" required>
+                <option value="">UF</option>
+                <option value="AC">AC</option><option value="AL">AL</option><option value="AP">AP</option>
+                <option value="AM">AM</option><option value="BA">BA</option><option value="CE">CE</option>
+                <option value="DF">DF</option><option value="ES">ES</option><option value="GO">GO</option>
+                <option value="MA">MA</option><option value="MT">MT</option><option value="MS">MS</option>
+                <option value="MG">MG</option><option value="PA">PA</option><option value="PB">PB</option>
+                <option value="PR">PR</option><option value="PE">PE</option><option value="PI">PI</option>
+                <option value="RJ">RJ</option><option value="RN">RN</option><option value="RS">RS</option>
+                <option value="RO">RO</option><option value="RR">RR</option><option value="SC">SC</option>
+                <option value="SP">SP</option><option value="SE">SE</option><option value="TO">TO</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Ponto de Referência *</label>
+            <input type="text" id="clientReference" required maxlength="150" placeholder="Ex: Próximo ao mercado...">
+          </div>
+          <div class="form-group">
+            <label>E-mail</label>
+            <input type="email" id="clientEmail" maxlength="100" placeholder="seu@email.com">
+          </div>
+
+          <!-- Frete -->
+          <div class="shipping-result" id="shippingResult" style="display:none;">
+            <h4 class="shipping-title">🚚 Opções de Entrega</h4>
+            <div id="shippingOptions">
+              <!-- Gerado via JS -->
+            </div>
+          </div>
+          <div class="shipping-loading" id="shippingLoading" style="display:none;">
+            <span class="spinner"></span> Calculando frete com os Correios...
+          </div>
+
+          <div class="checkout-summary" id="checkoutSummary">
+            <!-- Resumo gerado via JS -->
+          </div>
+          <button type="submit" class="btn-checkout" style="margin-top:1rem;">
+            📱 Confirmar e Enviar via WhatsApp
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <div class="footer-logo">
+          <img src="logo.jpg" alt="Coloré Moda Kids">
+        </div>
+        <p class="footer-desc">Moda infantil com estilo e conforto para seus pequenos. ⭐</p>
+      </div>
+
+      <div class="footer-contact">
+        <h4>Contato</h4>
+        <ul>
+          <li>
+            <a href="https://wa.me/5579996294751" target="_blank" rel="noopener">
+              📱 (79) 99629-4751
+            </a>
+          </li>
+          <li>
+            <a href="https://instagram.com/ccoloremodakids" target="_blank" rel="noopener">
+              📷 @ccoloremodakids
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <div class="footer-links">
+        <h4>Atendimento</h4>
+        <ul>
+          <li>Seg a Sex: 9h às 18h</li>
+          <li>Sáb: 9h às 13h</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <p>&copy; 2026 Coloré Moda Kids - Todos os direitos reservados</p>
+      <a href="admin.html" class="admin-link">⚙️ Administração</a>
+    </div>
+  </footer>
+
+  <!-- TOAST -->
+  <div class="toast-container"></div>
+
+  <script src="js/data.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

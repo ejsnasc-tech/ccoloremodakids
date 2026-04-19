@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin - CColore Moda Kids</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- LOGIN PAGE -->
+  <div class="login-page" id="loginPage">
+    <div class="login-box">
+      <div class="logo">
+        <img src="logo.jpg" alt="Coloré Moda Kids">
+      </div>
+      <h2>Painel Administrativo</h2>
+      <form id="loginForm">
+        <div class="form-group">
+          <label>Senha de Acesso</label>
+          <input type="password" id="loginPassword" placeholder="Digite a senha..." required>
+        </div>
+        <p class="login-error" id="loginError">Senha incorreta!</p>
+        <button type="submit" class="btn btn-primary">🔓 Entrar</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ADMIN PANEL -->
+  <div class="admin-layout" id="adminPanel" style="display:none;">
+    <!-- Sidebar -->
+    <aside class="admin-sidebar">
+      <div class="logo">
+        <img src="logo.jpg" alt="Coloré Moda Kids">
+      </div>
+      <ul class="admin-nav">
+        <li><a href="#" class="active" data-section="dashboard">📊 Dashboard</a></li>
+        <li><a href="#" data-section="products">📦 Produtos</a></li>
+        <li><a href="#" data-section="orders">🧾 Pedidos</a></li>
+        <li><a href="index.html">🏪 Ver Loja</a></li>
+        <li><a href="#" id="logoutBtn">🚪 Sair</a></li>
+      </ul>
+    </aside>
+
+    <!-- Main -->
+    <main class="admin-main">
+
+      <!-- DASHBOARD -->
+      <div class="admin-section" id="section-dashboard">
+        <div class="admin-header">
+          <h2>📊 Dashboard</h2>
+        </div>
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-icon">📦</div>
+            <div class="stat-value" id="statProducts">0</div>
+            <div class="stat-label">Produtos Cadastrados</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon">📏</div>
+            <div class="stat-value" id="statSizes">0</div>
+            <div class="stat-label">Variações de Tamanho</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon">📊</div>
+            <div class="stat-value" id="statStock">0</div>
+            <div class="stat-label">Itens em Estoque</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon">⚠️</div>
+            <div class="stat-value" id="statLowStock">0</div>
+            <div class="stat-label">Estoque Baixo (&le;3)</div>
+          </div>
+        </div>
+
+        <div class="admin-header">
+          <h2>⚠️ Produtos com Estoque Baixo</h2>
+        </div>
+        <div class="data-table">
+          <table>
+            <thead>
+              <tr>
+                <th>Produto</th>
+                <th>Tamanho</th>
+                <th>Estoque</th>
+              </tr>
+            </thead>
+            <tbody id="lowStockTable">
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- PRODUCTS -->
+      <div class="admin-section" id="section-products" style="display:none;">
+        <div class="admin-header">
+          <h2>📦 Produtos</h2>
+          <button class="btn btn-primary" id="addProductBtn">+ Novo Produto</button>
+        </div>
+        <div class="data-table">
+          <table>
+            <thead>
+              <tr>
+                <th>Foto</th>
+                <th>Nome</th>
+                <th>Categoria</th>
+                <th>Preço</th>
+                <th>Estoque Total</th>
+                <th>Ações</th>
+              </tr>
+            </thead>
+            <tbody id="productsTable">
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ORDERS -->
+      <div class="admin-section" id="section-orders" style="display:none;">
+        <div class="admin-header">
+          <h2>🧾 Pedidos</h2>
+        </div>
+        <div class="orders-filter">
+          <button class="order-filter-btn active" data-status="todos">Todos</button>
+          <button class="order-filter-btn" data-status="pendente">⏳ Pendente</button>
+          <button class="order-filter-btn" data-status="confirmado">✅ Confirmado</button>
+          <button class="order-filter-btn" data-status="preparando">📦 Preparando</button>
+          <button class="order-filter-btn" data-status="enviado">🚚 Enviado</button>
+          <button class="order-filter-btn" data-status="entregue">🎉 Entregue</button>
+          <button class="order-filter-btn" data-status="cancelado">❌ Cancelado</button>
+        </div>
+        <div id="adminOrdersList">
+          <!-- Generated via JS -->
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <!-- PRODUCT FORM MODAL -->
+  <div class="form-modal" id="productFormModal">
+    <div class="form-container">
+      <h3 id="formTitle">Novo Produto</h3>
+      <form id="productForm">
+        <input type="hidden" id="productId">
+
+        <div class="form-group">
+          <label>Nome do Produto *</label>
+          <input type="text" id="productName" required maxlength="100">
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Categoria *</label>
+            <input type="text" id="productCategory" required maxlength="50" list="categorySuggestions">
+            <datalist id="categorySuggestions"></datalist>
+          </div>
+          <div class="form-group">
+            <label>Badge (opcional)</label>
+            <select id="productBadge">
+              <option value="">Nenhum</option>
+              <option value="Novo">Novo</option>
+              <option value="Promoção">Promoção</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Descrição</label>
+          <textarea id="productDescription" rows="3" maxlength="500"></textarea>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Preço (R$) *</label>
+            <input type="number" id="productPrice" min="0.01" step="0.01" required>
+          </div>
+          <div class="form-group">
+            <label>Preço Antigo (R$)</label>
+            <input type="number" id="productOldPrice" min="0" step="0.01">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>URL da Imagem</label>
+          <input type="url" id="productImage" placeholder="https://exemplo.com/imagem.jpg">
+        </div>
+
+        <div class="form-group">
+          <label>Tamanhos e Estoque *</label>
+          <div class="size-manager" id="sizeManager">
+            <div class="size-row" data-index="0">
+              <input type="text" placeholder="Tamanho (ex: P, M, 2, 4)" class="size-name" maxlength="10" required>
+              <input type="number" placeholder="Estoque" class="size-stock" min="0" required>
+              <button type="button" class="remove-size" title="Remover">✕</button>
+            </div>
+          </div>
+          <button type="button" class="add-size-btn" id="addSizeBtn">+ Adicionar Tamanho</button>
+        </div>
+
+        <div class="form-actions">
+          <button type="button" class="btn btn-secondary" id="cancelForm">Cancelar</button>
+          <button type="submit" class="btn btn-primary" id="saveBtn">💾 Salvar Produto</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- TOAST -->
+  <div class="toast-container"></div>
+
+  <script src="js/data.js"></script>
+  <script src="js/admin.js"></script>
+</body>
+</html>

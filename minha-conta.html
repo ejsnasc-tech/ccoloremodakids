@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Minha Conta - Coloré Moda Kids</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="header">
+    <div class="header-inner">
+      <a href="index.html" class="logo">
+        <img src="logo.jpg" alt="Coloré Moda Kids">
+      </a>
+      <div class="nav-actions">
+        <a href="index.html" class="btn btn-secondary">🏪 Voltar à Loja</a>
+        <button class="btn btn-danger" id="logoutBtn" style="display:none;">🚪 Sair</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- AUTH SECTION (Login/Cadastro) -->
+  <section class="auth-section" id="authSection">
+    <div class="auth-container">
+      <!-- LOGIN TAB -->
+      <div class="auth-tabs">
+        <button class="auth-tab active" data-tab="login">Entrar</button>
+        <button class="auth-tab" data-tab="register">Criar Conta</button>
+      </div>
+
+      <!-- LOGIN FORM -->
+      <div class="auth-form" id="loginTab">
+        <div class="auth-header">
+          <img src="logo.jpg" alt="Coloré Moda Kids" class="auth-logo">
+          <h2>Bem-vindo(a) de volta! 👋</h2>
+          <p>Entre com seu e-mail e senha</p>
+        </div>
+        <form id="loginForm">
+          <div class="form-group">
+            <label>E-mail</label>
+            <input type="email" id="loginEmail" required placeholder="seu@email.com">
+          </div>
+          <div class="form-group">
+            <label>Senha</label>
+            <input type="password" id="loginPass" required placeholder="Sua senha" minlength="4">
+          </div>
+          <p class="auth-error" id="loginError"></p>
+          <button type="submit" class="btn btn-primary auth-submit">🔓 Entrar</button>
+        </form>
+        <p class="auth-switch">Não tem conta? <button data-tab="register">Crie agora</button></p>
+      </div>
+
+      <!-- REGISTER FORM -->
+      <div class="auth-form" id="registerTab" style="display:none;">
+        <div class="auth-header">
+          <img src="logo.jpg" alt="Coloré Moda Kids" class="auth-logo">
+          <h2>Crie sua conta ✨</h2>
+          <p>Rápido e fácil, acompanhe seus pedidos!</p>
+        </div>
+        <form id="registerForm">
+          <div class="form-row">
+            <div class="form-group">
+              <label>Nome *</label>
+              <input type="text" id="regName" required maxlength="50" placeholder="Seu nome">
+            </div>
+            <div class="form-group">
+              <label>Sobrenome *</label>
+              <input type="text" id="regLastName" required maxlength="50" placeholder="Seu sobrenome">
+            </div>
+          </div>
+          <div class="form-group">
+            <label>E-mail *</label>
+            <input type="email" id="regEmail" required placeholder="seu@email.com">
+          </div>
+          <div class="form-group">
+            <label>Telefone *</label>
+            <input type="tel" id="regPhone" required maxlength="15" placeholder="(00) 00000-0000">
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>CEP *</label>
+              <input type="text" id="regCep" required maxlength="9" placeholder="00000-000">
+              <small class="cep-status" id="regCepStatus"></small>
+            </div>
+            <div class="form-group">
+              <label>Senha *</label>
+              <input type="password" id="regPass" required minlength="4" placeholder="Mínimo 4 caracteres">
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Endereço (Rua) *</label>
+            <input type="text" id="regAddress" required maxlength="150" placeholder="Rua, Avenida...">
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Número *</label>
+              <input type="text" id="regNumber" required maxlength="10" placeholder="Nº">
+            </div>
+            <div class="form-group">
+              <label>Bairro *</label>
+              <input type="text" id="regBairro" required maxlength="80" placeholder="Bairro">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Cidade *</label>
+              <input type="text" id="regCity" required maxlength="80" placeholder="Cidade">
+            </div>
+            <div class="form-group">
+              <label>Estado *</label>
+              <select id="regState" required>
+                <option value="">Selecione</option>
+                <option value="AC">AC</option><option value="AL">AL</option><option value="AP">AP</option>
+                <option value="AM">AM</option><option value="BA">BA</option><option value="CE">CE</option>
+                <option value="DF">DF</option><option value="ES">ES</option><option value="GO">GO</option>
+                <option value="MA">MA</option><option value="MT">MT</option><option value="MS">MS</option>
+                <option value="MG">MG</option><option value="PA">PA</option><option value="PB">PB</option>
+                <option value="PR">PR</option><option value="PE">PE</option><option value="PI">PI</option>
+                <option value="RJ">RJ</option><option value="RN">RN</option><option value="RS">RS</option>
+                <option value="RO">RO</option><option value="RR">RR</option><option value="SC">SC</option>
+                <option value="SP">SP</option><option value="SE">SE</option><option value="TO">TO</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Ponto de Referência *</label>
+            <input type="text" id="regReference" required maxlength="150" placeholder="Ex: Próximo ao mercado, em frente à escola...">
+          </div>
+          <p class="auth-error" id="registerError"></p>
+          <button type="submit" class="btn btn-primary auth-submit">✨ Criar Conta</button>
+        </form>
+        <p class="auth-switch">Já tem conta? <button data-tab="login">Entrar</button></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ACCOUNT SECTION (Logado) -->
+  <section class="account-section" id="accountSection" style="display:none;">
+    <div class="account-container">
+
+      <!-- Sidebar -->
+      <div class="account-sidebar">
+        <div class="account-avatar">
+          <span id="avatarInitials">CC</span>
+        </div>
+        <h3 id="accountName">Nome</h3>
+        <p id="accountEmail">email@email.com</p>
+        <nav class="account-nav">
+          <button class="account-nav-item active" data-panel="orders">📦 Meus Pedidos</button>
+          <button class="account-nav-item" data-panel="profile">👤 Meus Dados</button>
+        </nav>
+      </div>
+
+      <!-- Content -->
+      <div class="account-content">
+
+        <!-- PEDIDOS -->
+        <div class="account-panel" id="panel-orders">
+          <h2>📦 Meus Pedidos</h2>
+          <div id="ordersList">
+            <!-- Gerado via JS -->
+          </div>
+        </div>
+
+        <!-- PERFIL -->
+        <div class="account-panel" id="panel-profile" style="display:none;">
+          <h2>👤 Meus Dados</h2>
+          <form id="profileForm">
+            <div class="form-row">
+              <div class="form-group">
+                <label>Nome</label>
+                <input type="text" id="profName" required maxlength="50">
+              </div>
+              <div class="form-group">
+                <label>Sobrenome</label>
+                <input type="text" id="profLastName" required maxlength="50">
+              </div>
+            </div>
+            <div class="form-group">
+              <label>E-mail</label>
+              <input type="email" id="profEmail" disabled>
+            </div>
+            <div class="form-group">
+              <label>Telefone</label>
+              <input type="tel" id="profPhone" maxlength="15">
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label>CEP</label>
+                <input type="text" id="profCep" maxlength="9">
+                <small class="cep-status" id="profCepStatus"></small>
+              </div>
+              <div class="form-group">
+                <label>Número</label>
+                <input type="text" id="profNumber" maxlength="10">
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Endereço (Rua)</label>
+              <input type="text" id="profAddress" maxlength="150">
+            </div>
+            <div class="form-group">
+              <label>Bairro</label>
+              <input type="text" id="profBairro" maxlength="80">
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label>Cidade</label>
+                <input type="text" id="profCity" maxlength="80">
+              </div>
+              <div class="form-group">
+                <label>Estado</label>
+                <select id="profState">
+                  <option value="">Selecione</option>
+                  <option value="AC">AC</option><option value="AL">AL</option><option value="AP">AP</option>
+                  <option value="AM">AM</option><option value="BA">BA</option><option value="CE">CE</option>
+                  <option value="DF">DF</option><option value="ES">ES</option><option value="GO">GO</option>
+                  <option value="MA">MA</option><option value="MT">MT</option><option value="MS">MS</option>
+                  <option value="MG">MG</option><option value="PA">PA</option><option value="PB">PB</option>
+                  <option value="PR">PR</option><option value="PE">PE</option><option value="PI">PI</option>
+                  <option value="RJ">RJ</option><option value="RN">RN</option><option value="RS">RS</option>
+                  <option value="RO">RO</option><option value="RR">RR</option><option value="SC">SC</option>
+                  <option value="SP">SP</option><option value="SE">SE</option><option value="TO">TO</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Ponto de Referência</label>
+              <input type="text" id="profReference" maxlength="150" placeholder="Ex: Próximo ao mercado...">
+            </div>
+            <button type="submit" class="btn btn-primary">💾 Salvar Alterações</button>
+          </form>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- TOAST -->
+  <div class="toast-container"></div>
+
+  <script src="js/data.js"></script>
+  <script src="js/account.js"></script>
+</body>
+</html>
