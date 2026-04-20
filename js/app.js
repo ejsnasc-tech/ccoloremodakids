@@ -224,6 +224,7 @@ document.addEventListener('DOMContentLoaded', () => {
         showToast(`${product.name} (Tam. ${selectedSize}) adicionado ao carrinho!`);
         updateCartCount();
         closeProductModal();
+        openCart();
       });
     }
 
@@ -258,8 +259,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function updateCartCount() {
     const count = Store.getCartCount();
-    cartCount.textContent = count;
-    cartCount.style.display = count > 0 ? 'flex' : 'none';
+    if (cartCount) {
+      cartCount.textContent = count;
+      cartCount.style.display = count > 0 ? 'flex' : 'none';
+    }
   }
 
   function renderCart() {
@@ -344,9 +347,12 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  cartBtn.addEventListener('click', openCart);
-  closeCart.addEventListener('click', closeCartPanel);
-  cartOverlay.addEventListener('click', closeCartPanel);
+  if (cartBtn) cartBtn.addEventListener('click', openCart);
+  if (closeCart) closeCart.addEventListener('click', closeCartPanel);
+  if (cartOverlay) cartOverlay.addEventListener('click', closeCartPanel);
+
+  const continueShoppingBtn = document.getElementById('continueShoppingBtn');
+  if (continueShoppingBtn) continueShoppingBtn.addEventListener('click', closeCartPanel);
 
   // ===== CHECKOUT =====
   const checkoutModal = document.getElementById('checkoutModal');

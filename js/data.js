@@ -3,7 +3,7 @@
 const Store = {
   PRODUCTS_KEY: 'ccolore_products',
   CART_KEY: 'ccolore_cart',
-  ADMIN_PASSWORD: 'ccolore2024',
+  ADMIN_PASSWORD: 'Samandra1709',
 
   // --- Products ---
   getProducts() {

@@ -932,6 +932,29 @@ input, select, textarea {
   box-shadow: 0 6px 20px rgba(37, 211, 102, 0.3);
 }
 
+.btn-continue-shopping {
+  width: 100%;
+  padding: 0.9rem;
+  background: var(--bg-white);
+  color: var(--teal-dark);
+  border: 2px solid var(--teal);
+  border-radius: 50px;
+  font-weight: 800;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  transition: var(--transition);
+  margin-top: 0.6rem;
+  cursor: pointer;
+}
+
+.btn-continue-shopping:hover {
+  background: rgba(74, 191, 191, 0.08);
+  transform: translateY(-2px);
+}
+
 /* ===== FOOTER ===== */
 .footer {
   background: #3D3D3D;
@@ -1534,13 +1557,45 @@ input, select, textarea {
   color: var(--text);
 }
 
-/* Account label in header */
+/* Account button in header */
+.btn-account {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.65rem 1.6rem;
+  border-radius: 50px;
+  background: linear-gradient(135deg, var(--teal), var(--teal-dark));
+  color: white;
+  font-weight: 800;
+  font-size: 1rem;
+  text-decoration: none;
+  transition: var(--transition);
+  box-shadow: 0 3px 10px rgba(74, 191, 191, 0.35);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  letter-spacing: 0.02em;
+}
+
+.btn-account:hover {
+  transform: translateY(-2px) scale(1.03);
+  box-shadow: 0 5px 18px rgba(74, 191, 191, 0.5);
+  background: linear-gradient(135deg, var(--teal-dark), var(--teal));
+}
+
+.btn-account:active {
+  transform: translateY(0) scale(0.98);
+  box-shadow: 0 2px 6px rgba(74, 191, 191, 0.3);
+}
+
+.btn-account-icon {
+  font-size: 1.35rem;
+  line-height: 1;
+}
+
 .account-label {
-  font-size: 0.7rem;
-  font-weight: 700;
-  color: var(--teal);
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: white;
   display: block;
-  margin-top: 2px;
 }
 
 /* ===== ORDER CARDS (Customer) ===== */
@@ -2112,6 +2167,34 @@ input, select, textarea {
 
 .add-size-btn:hover {
   text-decoration: underline;
+}
+
+/* Image Upload */
+.image-upload-area {
+  cursor: pointer;
+}
+
+.image-preview {
+  border: 2px dashed var(--border);
+  border-radius: 12px;
+  padding: 1.5rem;
+  text-align: center;
+  transition: var(--transition);
+  min-height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.image-preview:hover {
+  border-color: var(--teal);
+  background: rgba(74, 191, 191, 0.03);
+}
+
+.upload-placeholder {
+  color: var(--text-light);
+  font-size: 1rem;
+  font-weight: 600;
 }
 
 /* ===== LOGIN ===== */
