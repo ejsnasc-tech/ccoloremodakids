@@ -542,8 +542,8 @@ document.addEventListener('DOMContentLoaded', () => {
     message += `\nPor favor, confirme a disponibilidade e informe o valor do frete. Obrigado! 😊`;
 
     const phoneNumber = '5579996294751';
-    const whatsappUrl = `https://wa.me/${encodeURIComponent(phoneNumber)}?text=${encodeURIComponent(message)}`;
-    window.open(whatsappUrl, '_blank');
+    const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+    window.location.href = whatsappUrl;
 
     // Save order
     const user = Store.getLoggedUser();
@@ -587,7 +587,7 @@ document.addEventListener('DOMContentLoaded', () => {
     closeCheckout();
     renderProducts();
     updateCartCount();
-    renderCartItems();
+    renderCart();
 
     if (user) {
       showToast('Pedido enviado! Acompanhe em Minha Conta 📦');
