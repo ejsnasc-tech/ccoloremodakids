@@ -22,6 +22,10 @@
       </div>
 
       <div class="nav-actions">
+        <button class="btn-icon" id="cartBtn" title="Carrinho">
+          🛒
+          <span class="cart-count" id="cartCount" style="display:none;">0</span>
+        </button>
         <a href="minha-conta.html" class="btn-account" id="accountBtn" title="Minha Conta">
           <span class="btn-account-icon">👤</span>
           <span class="account-label" id="accountLabel">Entrar</span>
@@ -163,14 +167,8 @@
           </div>
 
           <!-- Frete -->
-          <div class="shipping-result" id="shippingResult" style="display:none;">
-            <h4 class="shipping-title">🚚 Opções de Entrega</h4>
-            <div id="shippingOptions">
-              <!-- Gerado via JS -->
-            </div>
-          </div>
-          <div class="shipping-loading" id="shippingLoading" style="display:none;">
-            <span class="spinner"></span> Calculando frete com os Correios...
+          <div class="shipping-notice">
+            🚚 <strong>Frete calculado após o pedido:</strong> após receber seu pedido pelo WhatsApp, informamos o valor exato do frete antes de confirmar a compra.
           </div>
 
           <div class="checkout-summary" id="checkoutSummary">

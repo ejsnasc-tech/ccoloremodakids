@@ -381,14 +381,6 @@ document.addEventListener('DOMContentLoaded', () => {
       document.getElementById('clientPhone').value = user.phone || '';
       document.getElementById('clientEmail').value = user.email || '';
       document.getElementById('clientReference').value = user.reference || '';
-      // Calc shipping if address available
-      if (user.cep || (user.city && user.state)) {
-        updateShipping(user.cep || '', user.city, user.state);
-      }
-    } else {
-      currentShipping = null;
-      shippingOptions = [];
-      document.getElementById('shippingResult').style.display = 'none';
     }
 
     // Render summary
@@ -409,23 +401,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     summaryHTML += `
       <div class="checkout-summary-total">
-        <span>Subtotal</span>
+        <span>Subtotal dos produtos</span>
         <span>${formatPrice(Store.getCartTotal())}</span>
       </div>
+      <div class="checkout-summary-shipping-notice">
+        🚚 Frete calculado após confirmação via WhatsApp
+      </div>
     `;
-
-    if (currentShipping) {
-      summaryHTML += `
-        <div class="checkout-summary-item shipping-line">
-          <span>🚚 ${sanitize(currentShipping.label)}</span>
-          <span>${formatPrice(currentShipping.value)}</span>
-        </div>
-        <div class="checkout-summary-total grand-total">
-          <span>Total com Frete</span>
-          <span>${formatPrice(Store.getCartTotal() + currentShipping.value)}</span>
-        </div>
-      `;
-    }
 
     checkoutSummary.innerHTML = summaryHTML;
 
@@ -446,83 +428,9 @@ document.addEventListener('DOMContentLoaded', () => {
     if (e.target === checkoutModal) closeCheckout();
   });
 
-  // ===== SHIPPING STATE =====
+  // ===== SHIPPING STATE (removido) =====
   let currentShipping = null;
   let shippingOptions = [];
-
-  async function updateShipping(cep, city, state) {
-    const shippingResult = document.getElementById('shippingResult');
-    const shippingLoading = document.getElementById('shippingLoading');
-    const shippingOptionsEl = document.getElementById('shippingOptions');
-
-    // Entrega local (Estância)
-    if (city && city.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').trim() === 'estancia') {
-      shippingOptions = [{ code: 'LOCAL', name: 'Entrega Local', value: 5.00, days: 1, label: 'Entrega local (Estância) - 1 dia' }];
-      currentShipping = shippingOptions[0];
-      renderShippingOptions();
-      refreshSummary();
-      return;
-    }
-
-    // Mostrar loading
-    shippingResult.style.display = 'none';
-    shippingLoading.style.display = '';
-    currentShipping = null;
-    shippingOptions = [];
-
-    // Tentar API dos Correios
-    const cleanCep = cep ? cep.replace(/\D/g, '') : '';
-    let results = null;
-    if (cleanCep.length === 8) {
-      results = await Store.calcShippingAPI(cleanCep);
-    }
-
-    // Fallback para tabela local
-    if (!results && city && state) {
-      results = Store.calcShippingLocal(city, state);
-    }
-
-    shippingLoading.style.display = 'none';
-
-    if (results && results.length > 0) {
-      shippingOptions = results;
-      currentShipping = results[0]; // Seleciona o mais barato por padrão
-      renderShippingOptions();
-    } else {
-      shippingResult.style.display = 'none';
-    }
-
-    refreshSummary();
-  }
-
-  function renderShippingOptions() {
-    const shippingResult = document.getElementById('shippingResult');
-    const shippingOptionsEl = document.getElementById('shippingOptions');
-
-    shippingOptionsEl.innerHTML = shippingOptions.map((opt, i) => `
-      <label class="shipping-option ${currentShipping && currentShipping.code === opt.code ? 'selected' : ''}">
-        <input type="radio" name="shippingChoice" value="${i}" ${currentShipping && currentShipping.code === opt.code ? 'checked' : ''}>
-        <div class="shipping-option-info">
-          <span class="shipping-option-name">${sanitize(opt.name)}</span>
-          <span class="shipping-option-days">${opt.days ? opt.days + ' dia' + (opt.days > 1 ? 's' : '') + ' útei' + (opt.days > 1 ? 's' : 'l') : 'Prazo estimado'}</span>
-        </div>
-        <span class="shipping-option-price">${formatPrice(opt.value)}</span>
-      </label>
-    `).join('');
-
-    // Radio change handler
-    shippingOptionsEl.querySelectorAll('input[name="shippingChoice"]').forEach(radio => {
-      radio.addEventListener('change', () => {
-        currentShipping = shippingOptions[parseInt(radio.value)];
-        // Update selected class
-        shippingOptionsEl.querySelectorAll('.shipping-option').forEach(el => el.classList.remove('selected'));
-        radio.closest('.shipping-option').classList.add('selected');
-        refreshSummary();
-      });
-    });
-
-    shippingResult.style.display = '';
-  }
 
   function refreshSummary() {
     const cart = Store.getCart();
@@ -534,11 +442,8 @@ document.addEventListener('DOMContentLoaded', () => {
         summaryHTML += `<div class="checkout-summary-item"><span>${sanitize(product.name)} (${sanitize(item.size)}) x${item.quantity}</span><span>${formatPrice(product.price * item.quantity)}</span></div>`;
       }
     });
-    summaryHTML += `<div class="checkout-summary-total"><span>Subtotal</span><span>${formatPrice(Store.getCartTotal())}</span></div>`;
-    if (currentShipping) {
-      summaryHTML += `<div class="checkout-summary-item shipping-line"><span>🚚 ${sanitize(currentShipping.label)}</span><span>${formatPrice(currentShipping.value)}</span></div>`;
-      summaryHTML += `<div class="checkout-summary-total grand-total"><span>Total com Frete</span><span>${formatPrice(Store.getCartTotal() + currentShipping.value)}</span></div>`;
-    }
+    summaryHTML += `<div class="checkout-summary-total"><span>Subtotal dos produtos</span><span>${formatPrice(Store.getCartTotal())}</span></div>`;
+    summaryHTML += `<div class="checkout-summary-shipping-notice">🚚 Frete calculado após confirmação via WhatsApp</div>`;
     checkoutSummary.innerHTML = summaryHTML;
   }
 
@@ -569,25 +474,12 @@ document.addEventListener('DOMContentLoaded', () => {
           document.getElementById('clientCity').value = data.localidade || '';
           document.getElementById('clientState').value = data.uf || '';
           document.getElementById('clientNumber').focus();
-
-          // Calculate shipping
-          updateShipping(v, data.localidade, data.uf);
         })
         .catch(() => {
           statusEl.textContent = 'Erro ao buscar CEP';
           statusEl.style.color = 'var(--danger)';
         });
     }
-  });
-
-  // Also recalc shipping when city/state change manually
-  document.getElementById('clientCity').addEventListener('change', function () {
-    const cep = document.getElementById('clientCep').value;
-    updateShipping(cep, this.value, document.getElementById('clientState').value);
-  });
-  document.getElementById('clientState').addEventListener('change', function () {
-    const cep = document.getElementById('clientCep').value;
-    updateShipping(cep, document.getElementById('clientCity').value, this.value);
   });
 
   // Phone mask
@@ -621,9 +513,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const cart = Store.getCart();
     const products = Store.getProducts();
-    const shippingFee = currentShipping ? currentShipping.value : 0;
     const subtotal = Store.getCartTotal();
-    const totalWithShipping = subtotal + shippingFee;
 
     let message = '🛍️ *Pedido - Coloré Moda Kids*\n\n';
     message += '👤 *Dados do Cliente*\n';
@@ -647,12 +537,9 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
 
-    message += `\n💰 *Subtotal: ${formatPrice(subtotal)}*\n`;
-    if (currentShipping) {
-      message += `🚚 *Frete (${currentShipping.label}): ${formatPrice(shippingFee)}*\n`;
-    }
-    message += `💵 *Total: ${formatPrice(totalWithShipping)}*\n\n`;
-    message += 'Por favor, confirme a disponibilidade e forma de pagamento. Obrigado! 😊';
+    message += `\n💰 *Subtotal dos produtos: ${formatPrice(subtotal)}*\n`;
+    message += `🚚 *Frete: a calcular (você nos informa o valor)*\n`;
+    message += `\nPor favor, confirme a disponibilidade e informe o valor do frete. Obrigado! 😊`;
 
     const phoneNumber = '5579996294751';
     const whatsappUrl = `https://wa.me/${encodeURIComponent(phoneNumber)}?text=${encodeURIComponent(message)}`;
@@ -685,8 +572,8 @@ document.addEventListener('DOMContentLoaded', () => {
         email: clientEmail
       },
       items: orderItems,
-      shipping: currentShipping ? { label: currentShipping.label, value: currentShipping.value } : null,
-      total: totalWithShipping
+      shipping: null,
+      total: subtotal
     });
 
     // Decrement stock

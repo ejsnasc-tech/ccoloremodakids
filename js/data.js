@@ -403,111 +403,92 @@ const Store = {
   ORIGIN_CITY: 'estância',
   LOCAL_SHIPPING: 5.00,
 
-  // Tabela fallback caso API dos Correios falhe
-  SHIPPING_TABLE: {
-    'SE': 12.00, 'BA': 18.00, 'AL': 18.00, 'PE': 22.00,
-    'PB': 25.00, 'RN': 25.00, 'CE': 28.00, 'PI': 28.00,
-    'MA': 30.00, 'MG': 30.00, 'ES': 28.00, 'RJ': 32.00,
-    'SP': 32.00, 'GO': 30.00, 'DF': 30.00, 'MT': 35.00,
-    'MS': 35.00, 'TO': 30.00, 'PA': 35.00, 'AP': 38.00,
-    'AM': 42.00, 'RR': 42.00, 'AC': 45.00, 'RO': 40.00,
-    'PR': 32.00, 'SC': 35.00, 'RS': 38.00
+  // Cidades de SE com entrega próxima (saindo de Estância)
+  SE_CITIES: {
+    'estancia':       { value: 5.00,  days: 1,  label: 'Entrega local (Estância) - até 1 dia' },
+    'itabaiana':      { value: 15.00, days: 2,  label: 'Entrega - Itabaiana/SE (2 dias úteis)' },
+    'aracaju':        { value: 18.00, days: 2,  label: 'Entrega - Aracaju/SE (2 dias úteis)' },
+    'lagarto':        { value: 15.00, days: 2,  label: 'Entrega - Lagarto/SE (2 dias úteis)' },
+    'simao dias':     { value: 18.00, days: 2,  label: 'Entrega - Simão Dias/SE (2 dias úteis)' },
+    'tobias barreto': { value: 20.00, days: 2,  label: 'Entrega - Tobias Barreto/SE (2 dias úteis)' },
+    'sao cristovao':  { value: 18.00, days: 2,  label: 'Entrega - São Cristóvão/SE (2 dias úteis)' },
+    'umbauba':        { value: 12.00, days: 1,  label: 'Entrega - Umbaúba/SE (1 dia útil)' },
+    'cristinapolis':  { value: 12.00, days: 1,  label: 'Entrega - Cristinápolis/SE (1 dia útil)' },
+    'indiaroba':      { value: 10.00, days: 1,  label: 'Entrega - Indiaroba/SE (1 dia útil)' },
+    'santa luzia do itanhy': { value: 10.00, days: 1, label: 'Entrega - Santa Luzia do Itanhy/SE (1 dia)' },
   },
 
-  // Consulta API dos Correios (PAC e SEDEX) via proxy CORS
-  async calcShippingAPI(cepDestino) {
-    const cepDest = cepDestino.replace(/\D/g, '');
-    if (cepDest.length !== 8) return null;
+  // Tabela por estado (PAC estimado — prazo aproximado em dias úteis)
+  SHIPPING_TABLE: {
+    'SE': { pac: 12.00, sedex: 22.00, days_pac: 3,  days_sedex: 1  },
+    'BA': { pac: 18.00, sedex: 32.00, days_pac: 5,  days_sedex: 2  },
+    'AL': { pac: 18.00, sedex: 32.00, days_pac: 5,  days_sedex: 2  },
+    'PE': { pac: 22.00, sedex: 38.00, days_pac: 6,  days_sedex: 2  },
+    'PB': { pac: 25.00, sedex: 42.00, days_pac: 7,  days_sedex: 3  },
+    'RN': { pac: 25.00, sedex: 42.00, days_pac: 7,  days_sedex: 3  },
+    'CE': { pac: 28.00, sedex: 46.00, days_pac: 8,  days_sedex: 3  },
+    'PI': { pac: 28.00, sedex: 46.00, days_pac: 8,  days_sedex: 3  },
+    'MA': { pac: 30.00, sedex: 50.00, days_pac: 9,  days_sedex: 4  },
+    'MG': { pac: 30.00, sedex: 50.00, days_pac: 8,  days_sedex: 3  },
+    'ES': { pac: 28.00, sedex: 46.00, days_pac: 7,  days_sedex: 3  },
+    'RJ': { pac: 32.00, sedex: 54.00, days_pac: 8,  days_sedex: 3  },
+    'SP': { pac: 32.00, sedex: 54.00, days_pac: 8,  days_sedex: 3  },
+    'GO': { pac: 30.00, sedex: 50.00, days_pac: 9,  days_sedex: 4  },
+    'DF': { pac: 30.00, sedex: 50.00, days_pac: 9,  days_sedex: 4  },
+    'MT': { pac: 35.00, sedex: 58.00, days_pac: 11, days_sedex: 5  },
+    'MS': { pac: 35.00, sedex: 58.00, days_pac: 10, days_sedex: 4  },
+    'TO': { pac: 30.00, sedex: 50.00, days_pac: 10, days_sedex: 4  },
+    'PA': { pac: 35.00, sedex: 58.00, days_pac: 12, days_sedex: 5  },
+    'AP': { pac: 38.00, sedex: 62.00, days_pac: 14, days_sedex: 6  },
+    'AM': { pac: 42.00, sedex: 68.00, days_pac: 14, days_sedex: 6  },
+    'RR': { pac: 42.00, sedex: 68.00, days_pac: 15, days_sedex: 7  },
+    'AC': { pac: 45.00, sedex: 72.00, days_pac: 16, days_sedex: 7  },
+    'RO': { pac: 40.00, sedex: 65.00, days_pac: 14, days_sedex: 6  },
+    'PR': { pac: 32.00, sedex: 54.00, days_pac: 9,  days_sedex: 4  },
+    'SC': { pac: 35.00, sedex: 58.00, days_pac: 10, days_sedex: 4  },
+    'RS': { pac: 38.00, sedex: 62.00, days_pac: 11, days_sedex: 5  },
+  },
 
-    // Peso estimado para roupas infantis (0.5kg por padrão)
-    const params = new URLSearchParams({
-      nCdEmpresa: '',
-      sDsSenha: '',
-      nCdServico: '04510,04014', // PAC + SEDEX
-      sCepOrigem: this.ORIGIN_CEP,
-      sCepDestino: cepDest,
-      nVlPeso: '0.5',
-      nCdFormato: '1',
-      nVlComprimento: '25',
-      nVlAltura: '10',
-      nVlLargura: '20',
-      nVlDiametro: '0',
-      sCdMaoPropria: 'N',
-      nVlValorDeclarado: '0',
-      sCdAvisoRecebimento: 'N',
-      StrRetorno: 'xml'
-    });
+  // API dos Correios removida (desativada em 2023) — cálculo via tabela local
+  calcShippingAPI() { return null; },
 
-    const correiosUrl = `http://ws.correios.com.br/calculador/CalcPrecoPrazo.aspx?${params}`;
+  // Cálculo local por cidade/estado
+  calcShippingLocal(city, state) {
+    if (!city && !state) return null;
 
-    // Tenta múltiplos proxies CORS para confiabilidade
-    const proxies = [
-      `https://corsproxy.io/?${encodeURIComponent(correiosUrl)}`,
-      `https://api.allorigins.win/raw?url=${encodeURIComponent(correiosUrl)}`
-    ];
+    const normalize = str => str.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').trim();
 
-    for (const proxyUrl of proxies) {
-      try {
-        const controller = new AbortController();
-        const timeout = setTimeout(() => controller.abort(), 8000);
-
-        const response = await fetch(proxyUrl, { signal: controller.signal });
-        clearTimeout(timeout);
-
-        if (!response.ok) continue;
-
-        const xml = await response.text();
-        const parser = new DOMParser();
-        const doc = parser.parseFromString(xml, 'text/xml');
-        const servicos = doc.querySelectorAll('cServico');
-
-        const results = [];
-        servicos.forEach(servico => {
-          const codigo = servico.querySelector('Codigo')?.textContent;
-          const valor = servico.querySelector('Valor')?.textContent;
-          const prazo = servico.querySelector('PrazoEntrega')?.textContent;
-          const erro = servico.querySelector('Erro')?.textContent;
-
-          if (valor && erro === '0') {
-            const price = parseFloat(valor.replace('.', '').replace(',', '.'));
-            const days = parseInt(prazo);
-            const nome = codigo === '04510' ? 'PAC' : codigo === '04014' ? 'SEDEX' : 'Correios';
-            results.push({
-              code: codigo,
-              name: nome,
-              value: price,
-              days: days,
-              label: `${nome} (${days} dias úteis)`
-            });
-          }
-        });
-
-        if (results.length > 0) {
-          return results.sort((a, b) => a.value - b.value); // Mais barato primeiro
-        }
-      } catch (e) {
-        continue; // Tenta próximo proxy
+    // Verifica cidade específica de SE primeiro
+    if (city) {
+      const cityKey = normalize(city);
+      const cityData = this.SE_CITIES[cityKey];
+      if (cityData) {
+        return [{ code: 'LOCAL', name: 'Entrega', value: cityData.value, days: cityData.days, label: cityData.label }];
       }
     }
 
-    return null; // Fallback para tabela
-  },
-
-  // Cálculo local (fallback)
-  calcShippingLocal(city, state) {
-    if (!city || !state) return null;
-    if (city.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').trim() ===
-        this.ORIGIN_CITY.normalize('NFD').replace(/[\u0300-\u036f]/g, '')) {
-      return [{ code: 'LOCAL', name: 'Local', value: this.LOCAL_SHIPPING, days: 1, label: 'Entrega local (Estância) - 1 dia' }];
-    }
-    const uf = state.toUpperCase().trim();
-    const rate = this.SHIPPING_TABLE[uf];
-    if (rate !== undefined) {
+    // Por estado
+    const uf = state ? state.toUpperCase().trim() : '';
+    const stateData = this.SHIPPING_TABLE[uf];
+    if (stateData) {
       return [
-        { code: 'PAC', name: 'PAC', value: rate, days: null, label: `PAC para ${uf} (estimativa)` },
-        { code: 'SEDEX', name: 'SEDEX', value: rate * 1.8, days: null, label: `SEDEX para ${uf} (estimativa)` }
+        {
+          code: 'PAC',
+          name: 'PAC',
+          value: stateData.pac,
+          days: stateData.days_pac,
+          label: `PAC - até ${stateData.days_pac} dias úteis`
+        },
+        {
+          code: 'SEDEX',
+          name: 'SEDEX',
+          value: stateData.sedex,
+          days: stateData.days_sedex,
+          label: `SEDEX - até ${stateData.days_sedex} dia${stateData.days_sedex > 1 ? 's' : ''} útil`
+        }
       ];
     }
+
     return null;
   }
 };

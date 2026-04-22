@@ -1220,6 +1220,27 @@ input, select, textarea {
   font-weight: 700;
 }
 
+.checkout-summary-shipping-notice {
+  margin-top: 0.6rem;
+  padding: 0.6rem 0.8rem;
+  background: var(--yellow-light);
+  border: 1.5px solid var(--yellow);
+  border-radius: var(--radius-sm);
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #8a6a00;
+}
+
+.shipping-notice {
+  background: var(--yellow-light);
+  border: 1.5px solid var(--yellow);
+  border-radius: var(--radius-sm);
+  padding: 0.7rem 1rem;
+  font-size: 0.88rem;
+  color: #7a5c00;
+  margin-top: 0.3rem;
+}
+
 .shipping-result {
   background: linear-gradient(135deg, #e8f8f5, #f0faf8);
   border: 2px solid var(--teal);
